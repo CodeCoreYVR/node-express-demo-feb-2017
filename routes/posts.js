@@ -3,10 +3,9 @@ const router = Express.Router();
 const db = require('../db/conn');
 
 router.get('/show/:id', function (req, res, next) {
-  let id = req.params.id
-  db.one(`SELECT * FROM posts WHERE id=${id}`)
+  const id = req.params.id
+  db.one(`SELECT * FROM posts WHERE id=$<id>`, {id: id})
     .then(function (post) {
-      console.log(post);
       res.render('posts/show', { post: post });
     })
     .catch(function (err) {
